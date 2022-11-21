@@ -55,7 +55,7 @@ ROOT_URLCONF = "blogapp.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [BASE_DIR.joinpath("templates")],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -117,6 +117,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = "static/"
+MEADIA_URL = "/media/"
 MEDIA_ROOT = Path(BASE_DIR).joinpath("upload")
 
 # Default primary key field type
