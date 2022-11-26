@@ -24,6 +24,7 @@ class Post(models.Model):
     slug = models.SlugField(max_length=200, unique=True)
     image = models.ImageField(null=True, blank=True, upload_to="images/")
     view_count = models.IntegerField(null=True, blank=True)
+    is_featured = models.BooleanField(default=False)
 
     # Related name makes it easy to do ?reverse? search
     # With out a related name: tag_1.post_set.all()
