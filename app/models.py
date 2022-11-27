@@ -8,7 +8,7 @@ class Tag(models.Model):
     description = models.CharField(max_length=100)
     slug = models.SlugField(max_length=200, unique=True)
 
-    def dave(self, *args, **kwargs):
+    def save(self, *args, **kwargs):
         if not self.id:
             self.slug = slugify(self.name)
         return super(Tag, self).save(*args, **kwargs)

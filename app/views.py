@@ -2,7 +2,7 @@ from re import L
 from django.shortcuts import redirect, render
 
 from app.forms import CommentForm, SubscribeForm
-from app.models import Comments, Post
+from app.models import Comments, Post, Tag
 
 
 def index(request):
@@ -19,19 +19,19 @@ def index(request):
             subscribe_form.save()
             subscribe_successful = "Subscribed Successfully"
             subscribe_form = SubscribeForm()
-            
+
     context = {
         "posts": posts,
         "top_posts": top_posts,
         "recent_posts": recent_posts,
         "subscribe_form": subscribe_form,
         "subscribe_successful": subscribe_successful,
-        "featured_post": featured_post
+        "featured_post": featured_post,
     }
     return render(request, "app/index.html", context)
 
 
-def post_page(request, slug):
+def post_page(request, slug):  # sourcery skip: extract-duplicate-method
     post = Post.objects.get(slug=slug)
     comments = Comments.objects.filter(post=post, parent=None)
     form = CommentForm()
@@ -46,7 +46,6 @@ def post_page(request, slug):
                     comment_reply.post = post
                     comment_reply.save()
                     return redirect("post_page", slug=slug)
-
             else:
                 comment = comment_form.save(commit=False)
                 post_id = request.POST.get("post_id")
@@ -62,5 +61,14 @@ def post_page(request, slug):
     post.save()
 
     context = {"post": post, "form": form, "comments": comments}
-
     return render(request, "app/post.html", context)
+
+
+def tag_page(request, slug):
+    tags = Tag.objects.all()
+    tag = Tag.objects.get(slug=slug)
+    top_posts = Post.objects.filter(tags__in=[tag.id]).order_by("-view_count")[:3]
+    recent_posts = Post.objects.filter(tags__in=[tag.id]).order_by("-last_updated")[:3]
+    
+    context = {"tag": tag, "tags": tags, "top_posts": top_posts, "recent_posts": recent_posts}
+    return render(request, "app/tag.html", context)
