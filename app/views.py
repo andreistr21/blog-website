@@ -97,3 +97,12 @@ def search_posts(request):
 
     context = {"posts": posts, "search_query": search_query}
     return render(request, "app/search.html", context)
+
+
+def about_page(request):
+    if WebsiteMeta.objects.all().exists():
+        website_info = WebsiteMeta.objects.all()[0]
+    
+    context = {"website_info": website_info}
+    return render(request, "app/about.html", context)
+
