@@ -84,3 +84,12 @@ def author_page(request, slug):
 
     context = {"profile": profile, "top_posts": top_posts, "recent_posts": recent_posts, "top_authors": top_authors}
     return render(request, "app/author.html", context)
+
+
+def search_posts(request):
+    posts = ()
+    if search_query := (request.GET.get("q") or ""):
+        posts = Post.objects.filter(title__icontains=search_query)
+
+    context = {"posts": posts, "search_query": search_query}
+    return render(request, "app/search.html", context)
