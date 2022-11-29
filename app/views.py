@@ -1,8 +1,9 @@
-from re import L
+from django.contrib.auth.models import User
 from django.shortcuts import redirect, render
+from django.db.models import Count
 
 from app.forms import CommentForm, SubscribeForm
-from app.models import Comments, Post, Tag
+from app.models import Comments, Post, Profile, Tag
 
 
 def index(request):
@@ -67,8 +68,19 @@ def post_page(request, slug):  # sourcery skip: extract-duplicate-method
 def tag_page(request, slug):
     tags = Tag.objects.all()
     tag = Tag.objects.get(slug=slug)
-    top_posts = Post.objects.filter(tags__in=[tag.id]).order_by("-view_count")[:3]
+    top_posts = Post.objects.filter(tags__in=[tag.id]).order_by("-view_count")[:2]
     recent_posts = Post.objects.filter(tags__in=[tag.id]).order_by("-last_updated")[:3]
-    
+
     context = {"tag": tag, "tags": tags, "top_posts": top_posts, "recent_posts": recent_posts}
     return render(request, "app/tag.html", context)
+
+
+def author_page(request, slug):
+    profile = Profile.objects.get(slug=slug)
+
+    top_posts = Post.objects.filter(author=profile.user).order_by("-view_count")[:2]
+    recent_posts = Post.objects.filter(author=profile.user).order_by("-last_updated")[:3]
+    top_authors = User.objects.annotate(number=Count("post")).order_by("number")
+
+    context = {"profile": profile, "top_posts": top_posts, "recent_posts": recent_posts, "top_authors": top_authors}
+    return render(request, "app/author.html", context)
