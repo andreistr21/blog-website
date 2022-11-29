@@ -13,11 +13,21 @@
                 </a>
             </div>
             <div class="typo">
+                {% if website_info.title %}
+                <h1 class="title">{{website_info.title}}</h1>
+                {% else %}
                 <h1 class="title">Website blog title</h1>
+                {% endif %}
+
+                {% if website_info.description %}
+                <p>{{website_info.description}}</p>
+                {% else %}
                 <p>
                     Lorem ipsum began as scrambled, nonsensical Latin derived from
                     Cicero's 1st-century BC text De Finibus Bonorum et Malorum.
                 </p>
+                {% endif %}
+
             </div>
             <div class="newsletter">
                 <form method="POST"> {% csrf_token %}
@@ -116,7 +126,7 @@
                                 <p>{{post.author.first_name}}</p>
                                 <small>{{post.last_updated|date}}</small>
                             </div>
-                        </div>  
+                        </div>
                     </div>
                 </div>
             </a>

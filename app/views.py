@@ -3,7 +3,7 @@ from django.shortcuts import redirect, render
 from django.db.models import Count
 
 from app.forms import CommentForm, SubscribeForm
-from app.models import Comments, Post, Profile, Tag
+from app.models import Comments, Post, Profile, Tag, WebsiteMeta
 
 
 def index(request):
@@ -13,6 +13,9 @@ def index(request):
     featured_post = Post.objects.filter(is_featured=True).first()
     subscribe_form = SubscribeForm()
     subscribe_successful = None
+    
+    if WebsiteMeta.objects.all().exists():
+        website_info = WebsiteMeta.objects.all()[0]
 
     if request.POST:
         subscribe_form = SubscribeForm(request.POST)
@@ -28,6 +31,7 @@ def index(request):
         "subscribe_form": subscribe_form,
         "subscribe_successful": subscribe_successful,
         "featured_post": featured_post,
+        "website_info": website_info
     }
     return render(request, "app/index.html", context)
 
