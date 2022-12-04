@@ -9,4 +9,6 @@ urlpatterns = [
     path("author/<slug:slug>", views.author_page, name="author_page"),
     path("search/", views.search_posts, name="search"),
     path("about/", views.about_page, name="about"),
+    path("login/", views.login_page, name="login"),
+    path("signup/", views.signup_page, name="signup"),
 ]

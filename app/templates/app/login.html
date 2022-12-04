@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %}Blog | Welcome{% endblock title %}
+
+{% block content %}
+<main style="padding-top: 71px;">
+
+    {% if not is_authenticated %}
+    <form method="post" class="form">
+        {% csrf_token %}
+        <center>
+            <div class="logo f-logo">
+                <i class="fa-brands fa-blogger"></i>
+            </div>
+
+            <div class="inputs">
+                <div>
+                    <div class="search-bar s-active input">
+                        {{form.username}}
+                        <div class="animated-search">
+                            <i class="uil uil-envelope-alt"></i>
+                        </div>
+                    </div>
+                    <div class="search-bar s-active input">
+                        {{form.password}}
+                        <div class="animated-search">
+                            <i class="uil uil-key-skeleton"></i>
+                        </div>
+                    </div>
+                </div>
+
+                {% if logging_failed %}
+                <div class="logging-error">Your username and\or password are incorrect. Please try again.</div>
+                {% endif %}
+
+                <button class="btn btn-primary rounded" type="submit">
+                    Login <span class="material-icons"> arrow_right_alt </span>
+                </button>
+                
+                <p>Not have an account? <a href="{% url 'signup' %}">Sign up</a></p>
+            </div>
+        </center>
+    </form>
+    {% else %}
+    <center>
+        <p>You are already logged in.</p>
+    </center>
+    {% endif %}
+</main>
+{% endblock content %}

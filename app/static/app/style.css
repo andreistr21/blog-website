@@ -1064,3 +1064,9 @@ main {
 .reply button {
   background: transparent;
 }
+.logging-error {
+  color: red;
+  font-size: 1.6rem;
+  font-weight: 400;
+  margin-top: 2rem;
+}

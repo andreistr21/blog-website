@@ -1,8 +1,10 @@
+from operator import truediv
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
-from django.shortcuts import redirect, render
 from django.db.models import Count
+from django.shortcuts import redirect, render
 
-from app.forms import CommentForm, SubscribeForm
+from app.forms import CommentForm, LoginForm, SubscribeForm, SignupForm
 from app.models import Comments, Post, Profile, Tag, WebsiteMeta
 
 
@@ -13,7 +15,7 @@ def index(request):
     featured_post = Post.objects.filter(is_featured=True).first()
     subscribe_form = SubscribeForm()
     subscribe_successful = None
-    
+
     if WebsiteMeta.objects.all().exists():
         website_info = WebsiteMeta.objects.all()[0]
 
@@ -31,7 +33,7 @@ def index(request):
         "subscribe_form": subscribe_form,
         "subscribe_successful": subscribe_successful,
         "featured_post": featured_post,
-        "website_info": website_info
+        "website_info": website_info,
     }
     return render(request, "app/index.html", context)
 
@@ -102,7 +104,44 @@ def search_posts(request):
 def about_page(request):
     if WebsiteMeta.objects.all().exists():
         website_info = WebsiteMeta.objects.all()[0]
-    
+
     context = {"website_info": website_info}
     return render(request, "app/about.html", context)
 
+
+def login_page(request):  # sourcery skip: use-named-expression
+    form = LoginForm()
+    logging_failed = False
+
+    if request.POST:
+        login_form = LoginForm(request.POST)
+        if login_form.is_valid():
+            user = authenticate(
+                username=login_form.cleaned_data["username"], password=login_form.cleaned_data["password"]
+            )
+            if user:
+                login(request, user)
+            else:
+                logging_failed = True
+
+    context = {"form": form, "is_authenticated": request.user.is_authenticated, "logging_failed": logging_failed}
+    return render(request, "app/login.html", context)
+
+
+def signup_page(request):
+    form = SignupForm()
+
+    if request.POST:
+        form = SignupForm(request.POST)
+        if form.is_valid():
+            User.objects.create_user(
+                username=request.POST.get("username"),
+                email=request.POST.get("email"),
+                password=request.POST.get("password"),
+            )
+            print("User is created!!!!")
+        else:
+            print(form.errors)
+
+    context = {"form": form}
+    return render(request, "app/signup.html", context)
