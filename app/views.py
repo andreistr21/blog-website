@@ -143,5 +143,5 @@ def signup_page(request):
         else:
             print(form.errors)
 
-    context = {"form": form}
+    context = {"form": form, "is_authenticated": request.user.is_authenticated}
     return render(request, "app/signup.html", context)

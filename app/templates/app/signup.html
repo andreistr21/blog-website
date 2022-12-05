@@ -12,6 +12,7 @@
             <h1>Sign Up</h1>
         </div>
 
+        {% if not is_authenticated %}
         <form action="" class="form" method="post">
             {% csrf_token %}
             <center>
@@ -82,6 +83,11 @@
                 </div>
             </center>
         </form>
+        {% else %}
+        <center>
+            <h1>You are already logged in.</h1>
+        </center>
+        {% endif %}
     </div>
 </main>
 {% endblock content %}
