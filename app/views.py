@@ -1,11 +1,28 @@
-from operator import truediv
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.db.models import Count
+from django.http import HttpResponseNotFound, HttpResponse
 from django.shortcuts import redirect, render
 
-from app.forms import CommentForm, LoginForm, SubscribeForm, SignupForm
+from app.forms import CommentForm, LoginForm, SignupForm, SubscribeForm
 from app.models import Comments, Post, Profile, Tag, WebsiteMeta
+
+
+def like_post(request):
+    if not request.POST:
+        return HttpResponseNotFound()
+
+    slug = request.POST.get("post_slug")
+    post_obj = Post.objects.get(slug=slug)
+    user = request.user
+
+    if user.is_authenticated:
+        if user in post_obj.likes.all():
+            post_obj.likes.remove(user)
+        else:
+            post_obj.likes.add(user)
+
+    return redirect(post_page, slug=slug)
 
 
 def index(request):

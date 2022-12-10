@@ -63,7 +63,18 @@
                 <div class="social-share">
                   <div class="reactions">
                     <div class="likes">
-                      <i class="uil uil-heart"></i> <span>200</span>
+                      <form action="{% url 'like-post' %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="post_slug" value={{post.slug}}>
+                        <button type="submit" class="likes-button">
+                          {% if request.user in post.likes.all %}
+                          <i class="fa fa-heart"></i>
+                          {% else %}
+                          <i class="uil uil-heart"></i>
+                          {% endif %}
+                        </button>
+                        <span>{{post.likes.all|length}}</span>
+                      </form>
                     </div>
                     <div class="total-comments">
                       <i class="uil uil-comment-alt"></i>
