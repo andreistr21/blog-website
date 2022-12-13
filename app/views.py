@@ -4,7 +4,7 @@ from django.db.models import Count
 from django.http import HttpResponseNotFound, HttpResponse
 from django.shortcuts import redirect, render
 
-from app.forms import CommentForm, LoginForm, SignupForm, SubscribeForm
+from app.forms import CommentForm, LoginForm, PostForm, SignupForm, SubscribeForm
 from app.models import Comments, Post, Profile, Tag, WebsiteMeta
 
 
@@ -162,3 +162,16 @@ def signup_page(request):
 
     context = {"form": form, "is_authenticated": request.user.is_authenticated}
     return render(request, "app/signup.html", context)
+
+
+def new_post_page(request):
+    new_post_form = PostForm()
+
+    if request.POST:
+        form = PostForm(request.POST, request.FILES)
+        if form.is_valid():
+            # Post.objects.create(form)
+            form.save()
+
+    context = {"form": new_post_form}
+    return render(request, "app/new_post.html", context)

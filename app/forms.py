@@ -1,9 +1,9 @@
-from distutils.command.clean import clean
 from django import forms
 from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy
+from tinymce.widgets import TinyMCE
 
-from app.models import Comments, Subscribe
+from app.models import Comments, Post, Subscribe
 
 
 class CommentForm(forms.ModelForm):
@@ -54,3 +54,16 @@ class SignupForm(forms.ModelForm):
 
         if password != confirm_password:
             self.add_error("confirm_password", "Password mismatch")
+
+
+class PostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ("image", "title", "content", "tags")
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["title"].widget.attrs["placeholder"] = "Title"
+        self.fields["content"].widget = TinyMCE()
+        self.fields["content"].widget.attrs["placeholder"] = "Enter content here"
+        self.fields["tags"].help_text = "Hold down “Control”, or “Command” on a Mac, to select more than one."

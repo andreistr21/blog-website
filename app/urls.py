@@ -14,4 +14,5 @@ urlpatterns = [
     path("signup/", views.signup_page, name="signup"),
     path("logout/", auth_views.LogoutView.as_view(template_name="app/logout.html"), name="logout"),
     path("like-post/", views.like_post, name="like-post"),
+    path("new_post/", views.new_post_page, name="new-post"),
 ]

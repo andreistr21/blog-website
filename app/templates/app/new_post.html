@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block title %}Blog | New post{% endblock title %}
+
+{% block script %}
+<script src="https://cdn.tiny.cloud/1/jys86spz5w4zp7jbfbr16eorvcw4sx1j2yg6q26namjws4do/tinymce/6/tinymce.min.js"
+    referrerpolicy="origin"></script>
+<script>
+    tinymce.init({
+        selector: 'textarea',
+        width: 752,
+        plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage tableofcontents footnotes mergetags autocorrect typography inlinecss',
+        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
+        tinycomments_mode: 'embedded',
+        tinycomments_author: 'Author name',
+    });
+</script>
+{% endblock script %}
+
+{% block content %}
+<form method="post" class="post-form" enctype='multipart/form-data'>
+    {% csrf_token %}
+    <center>
+        <div class="logo f-logo">
+            <i class="fa-brands fa-blogger"></i>
+        </div>
+
+        <div class="inputs">
+            <p>
+                {{form.image}}
+            </p>
+            <br>
+            <p>
+                <div class="s-active login-input">
+                    {{form.title}}
+                </div>
+            </p>
+            <br>
+            <p>
+                {{form.content}}
+            </p>
+            <br>
+            <p>
+                <label for="choose-tags">{{form.tags.name|title}}:</label>
+                <div class="choose-tags">
+                    {{form.tags}}
+                </div>
+                <div>
+                    {{form.tags.help_text}}
+                </div>
+            </p>
+            <br>
+            <button class="btn btn-primary rounded" type="submit">
+                Publish a new post <span class="material-icons"> arrow_right_alt </span>
+            </button>
+        </div>
+    </center>
+</form>
+{% endblock content %}

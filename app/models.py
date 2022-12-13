@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
 from django.utils.text import slugify
+from tinymce import models as tinymce_models
 
 
 class Profile(models.Model):
@@ -34,7 +35,7 @@ class Tag(models.Model):
 
 class Post(models.Model):
     title = models.CharField(max_length=200)
-    content = models.TextField()
+    content = tinymce_models.HTMLField()
     last_updated = models.DateTimeField(auto_now=True)
     slug = models.SlugField(max_length=200, unique=True)
     image = models.ImageField(null=True, blank=True, upload_to="images/")
@@ -47,6 +48,13 @@ class Post(models.Model):
     # With related name: tag_1.post.all()
     tags = models.ManyToManyField(Tag, blank=True, related_name="post")
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        return super(Post, self).save(*args, **kwargs)
+
+    def __str__(self) -> str:
+        return self.title
 
 
 class Comments(models.Model):
