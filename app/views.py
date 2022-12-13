@@ -1,11 +1,16 @@
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.db.models import Count
-from django.http import HttpResponseNotFound, HttpResponse
+from django.http import HttpResponseNotFound, HttpResponse, HttpResponseForbidden
 from django.shortcuts import redirect, render
 
 from app.forms import CommentForm, LoginForm, PostForm, SignupForm, SubscribeForm
 from app.models import Comments, Post, Profile, Tag, WebsiteMeta
+
+
+
+def is_user_anonymous(request):
+    return not request.user.is_authenticated
 
 
 def like_post(request):
@@ -165,6 +170,9 @@ def signup_page(request):
 
 
 def new_post_page(request):
+    if is_user_anonymous(request):
+        return HttpResponseForbidden()
+
     new_post_form = PostForm()
 
     if request.POST:
