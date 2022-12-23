@@ -1,7 +1,9 @@
+from io import BytesIO, StringIO
 from django.contrib.auth.models import User
 from django.db import models
 from django.utils.text import slugify
 from tinymce import models as tinymce_models
+from PIL import Image
 
 
 class Profile(models.Model):
@@ -72,12 +74,12 @@ class Comments(models.Model):
 class Subscribe(models.Model):
     email = models.EmailField(max_length=200)
     date = models.DateTimeField(auto_now=True)
-    
-    
+
+
 class WebsiteMeta(models.Model):
     title = models.CharField(max_length=200)
     description = models.CharField(max_length=500)
     about = models.TextField()
-    
+
     def __str__(self) -> str:
         return self.title

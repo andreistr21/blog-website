@@ -845,6 +845,10 @@ p span {
   margin-top: 5rem;
 }
 
+.image-change > a {
+  display: none;
+}
+
 .form .btn {
   margin-top: 3rem;
   width: 100%;
@@ -1090,5 +1094,8 @@ main {
   margin-top: 2rem;
 }
 .inline {
-  white-space: nowrap ;
+  white-space: nowrap;
+}
+.post-img {
+  width: 40%;
 }

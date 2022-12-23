@@ -3,10 +3,10 @@ from django.contrib.auth.models import User
 from django.db.models import Count
 from django.http import HttpResponseNotFound, HttpResponse, HttpResponseForbidden
 from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404
 
 from app.forms import CommentForm, LoginForm, PostForm, SignupForm, SubscribeForm
 from app.models import Comments, Post, Profile, Tag, WebsiteMeta
-
 
 
 def is_user_anonymous(request):
@@ -161,9 +161,6 @@ def signup_page(request):
                 email=request.POST.get("email"),
                 password=request.POST.get("password"),
             )
-            print("User is created!!!!")
-        else:
-            print(form.errors)
 
     context = {"form": form, "is_authenticated": request.user.is_authenticated}
     return render(request, "app/signup.html", context)
@@ -178,8 +175,23 @@ def new_post_page(request):
     if request.POST:
         form = PostForm(request.POST, request.FILES)
         if form.is_valid():
-            # Post.objects.create(form)
-            form.save()
+            post_form = form.save()
+            return redirect("post_page", post_form.slug)
 
     context = {"form": new_post_form}
     return render(request, "app/new_post.html", context)
+
+
+def edit_post_page(request, slug):
+    post_obj = get_object_or_404(Post, slug=slug)
+    image_url = request.build_absolute_uri(post_obj.image.url)
+    post_form = PostForm(instance=post_obj)
+
+    if request.POST:
+        post_form = PostForm(request.POST, request.FILES, instance=post_obj)
+        if post_form.is_valid():
+            post_obj = post_form.save()
+            return redirect("post_page", post_obj.slug)
+
+    context = {"post_form": post_form, "image_url": image_url}
+    return render(request, "app/edit-post.html", context)
