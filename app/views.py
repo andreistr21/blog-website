@@ -184,6 +184,10 @@ def new_post_page(request):
 
 def edit_post_page(request, slug):
     post_obj = get_object_or_404(Post, slug=slug)
+    
+    if is_user_anonymous(request) or request.user.id != post_obj.author.id:
+        return HttpResponseForbidden()
+        
     image_url = request.build_absolute_uri(post_obj.image.url)
     post_form = PostForm(instance=post_obj)
 
