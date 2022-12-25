@@ -321,6 +321,11 @@ header .container {
   gap: 5rem;
 }
 
+.grid-4 {
+  grid-template-columns: repeat(3, 1fr);
+  gap: 5rem;
+}
+
 .card {
   background: white;
   box-shadow: var(--shadow2);

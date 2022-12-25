@@ -187,7 +187,7 @@ def edit_post_page(request, slug):
     
     if is_user_anonymous(request) or request.user.id != post_obj.author.id:
         return HttpResponseForbidden()
-        
+
     image_url = request.build_absolute_uri(post_obj.image.url)
     post_form = PostForm(instance=post_obj)
 
@@ -199,3 +199,12 @@ def edit_post_page(request, slug):
 
     context = {"post_form": post_form, "image_url": image_url}
     return render(request, "app/edit-post.html", context)
+
+
+def my_posts_page(request):
+    #TODO only logged person
+    author_id = request.user.id
+    author_posts = Post.objects.filter(author__id=author_id).order_by("last_updated")
+
+    context = {"author_posts": author_posts}
+    return render(request, "app/my_posts.html", context)
