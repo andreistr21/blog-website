@@ -204,7 +204,9 @@ def edit_post_page(request, slug):
 
 
 def my_posts_page(request):
-    #TODO only logged person
+    if is_user_anonymous(request):
+        return HttpResponseForbidden()
+
     author_id = request.user.id
     author_posts = Post.objects.filter(author__id=author_id).order_by("last_updated")
 
