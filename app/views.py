@@ -143,6 +143,7 @@ def login_page(request):  # sourcery skip: use-named-expression
             )
             if user:
                 login(request, user)
+                return redirect("my_posts")
             else:
                 logging_failed = True
 
@@ -156,11 +157,13 @@ def signup_page(request):
     if request.POST:
         form = SignupForm(request.POST)
         if form.is_valid():
-            User.objects.create_user(
+            user = User.objects.create_user(
                 username=request.POST.get("username"),
                 email=request.POST.get("email"),
                 password=request.POST.get("password"),
             )
+            login(request, user)
+            return redirect("my_posts")
 
     context = {"form": form, "is_authenticated": request.user.is_authenticated}
     return render(request, "app/signup.html", context)
