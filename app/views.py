@@ -175,8 +175,10 @@ def new_post_page(request):
     if request.POST:
         form = PostForm(request.POST, request.FILES)
         if form.is_valid():
-            post_form = form.save()
-            return redirect("post_page", post_form.slug)
+            post_obj = form.save(commit=False)
+            post_obj.author = request.user
+            post_obj.save()
+            return redirect("post_page", post_obj.slug)
 
     context = {"form": new_post_form}
     return render(request, "app/new_post.html", context)
