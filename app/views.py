@@ -1,3 +1,4 @@
+import re
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.db.models import Count
@@ -189,14 +190,14 @@ def new_post_page(request):
 
 def edit_post_page(request, slug):
     post_obj = get_object_or_404(Post, slug=slug)
-    
+
     if is_user_anonymous(request) or request.user.id != post_obj.author.id:
         return HttpResponseForbidden()
 
     image_url = request.build_absolute_uri(post_obj.image.url)
     post_form = PostForm(instance=post_obj)
 
-    if request.POST:
+    if request.POST and not request.POST.get("action"):
         post_form = PostForm(request.POST, request.FILES, instance=post_obj)
         if post_form.is_valid():
             post_obj = post_form.save()

@@ -1104,3 +1104,12 @@ main {
 .post-img {
   width: 40%;
 }
+
+.post-action-item > button {
+  display: inline;
+  margin-left: 10px;
+  background-color: transparent;
+}
+.post-action-item > button:hover {
+  background-color: #dcdedc;
+}

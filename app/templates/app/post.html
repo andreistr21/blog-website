@@ -23,6 +23,23 @@
             <h1 class="title blog-title">
               {{post.title}}
             </h1>
+            <br>
+            {% if request.user.is_authenticated and post.author.id == request.user.id %}
+            <div>
+              <form class="post-action-item" action="{% url 'edit-post' post.slug %}" method="post"> {% csrf_token %}
+                <button type="submit" class="action-menu">
+                  <input type="hidden" name="action" value="edit">
+                  <p>Edit <i class="uil uil-pen"></i></p>
+                </button>
+              </form>
+              {% comment %} <form class="post-action-item" action="{% url 'edit-post' post.slug %}" method="post"> {% csrf_token %}
+                <button type="submit" class="action-menu">
+                  <input type="hidden" name="action" value="edit">
+                  <p>Delete <i class="fa fa-remove"></i></p>
+                </button>
+              </form> {% endcomment %}
+            </div>
+            {% endif %}
             <div class="timeline">
               <div class="track">
                 <i class="uil uil-clock"></i>
@@ -65,7 +82,7 @@
                 <div class="social-share">
                   <div class="reactions">
                     <div class="likes">
-                      <form action="{% url 'like-post' %}" method="post">
+                      <form action="{% url 'like-post' %}" method="post"> {% comment "" %}{% endcomment %}
                         {% csrf_token %}
                         <input type="hidden" name="post_slug" value={{post.slug}}>
                         <button type="submit" class="likes-button">

@@ -40,7 +40,7 @@ class Post(models.Model):
     content = tinymce_models.HTMLField()
     last_updated = models.DateTimeField(auto_now=True)
     slug = models.SlugField(max_length=200, unique=True)
-    image = models.ImageField(null=True, blank=True, upload_to="images/")
+    image = models.ImageField(upload_to="images/", default="images/no_image.jpg")
     view_count = models.IntegerField(null=True, blank=True)
     is_featured = models.BooleanField(default=False)
     likes = models.ManyToManyField(User, related_name="blog_post")
