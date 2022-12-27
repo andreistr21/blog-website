@@ -14,6 +14,10 @@ def is_user_anonymous(request):
     return not request.user.is_authenticated
 
 
+def not_creator(request, post):
+    return request.user.id != post.author.id
+
+
 def like_post(request):
     if not request.POST:
         return HttpResponseNotFound()
@@ -191,7 +195,7 @@ def new_post_page(request):
 def edit_post_page(request, slug):
     post_obj = get_object_or_404(Post, slug=slug)
 
-    if is_user_anonymous(request) or request.user.id != post_obj.author.id:
+    if is_user_anonymous(request) or not_creator(request, post_obj):
         return HttpResponseForbidden()
 
     image_url = request.build_absolute_uri(post_obj.image.url)
@@ -216,3 +220,17 @@ def my_posts_page(request):
 
     context = {"author_posts": author_posts}
     return render(request, "app/my_posts.html", context)
+
+
+def delete_post(request, slug):
+    post_obj = get_object_or_404(Post, slug=slug)
+
+    if is_user_anonymous(request) or not_creator(request, post_obj):
+        return HttpResponseForbidden()
+
+    if request.POST and request.POST.get("delete"):
+        post_obj.delete()
+        return redirect("my_posts")
+
+    context = {"post_obj": post_obj}
+    return render(request, "app/delete.html", context)

@@ -119,6 +119,13 @@ header .container {
   gap: 1rem;
 }
 
+.action-btn-post {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6rem;
+}
+
 .links {
   gap: 2rem;
 }

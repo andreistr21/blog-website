@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}Blog | Delete Post{% endblock title %}
+{% block content %}
+<main>
+    <center>
+        <div class="inputs">
+            <p>Are you sure you want to delete this post?</p>
+            <p class="title blog-title">{{post_obj.title}}</p>
+            <br>
+            <div class="action-btn-post">
+                <form action="{% url 'post_page' post_obj.slug %}">
+                    <button class="btn btn-scoundary" id="cancel_id">Cancel</button>
+                </form>
+                <form action="" method="post"> {% csrf_token %}
+                    <input type="hidden" name="delete" value="confirmed">
+                    <button class="btn btn-primary">Delete</button>
+                </form>
+            </div>
+        </div>
+    </center>
+</main>
+{% endblock content %}

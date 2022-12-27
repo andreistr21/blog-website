@@ -32,12 +32,12 @@
                   <p>Edit <i class="uil uil-pen"></i></p>
                 </button>
               </form>
-              {% comment %} <form class="post-action-item" action="{% url 'edit-post' post.slug %}" method="post"> {% csrf_token %}
+              <form class="post-action-item" action="{% url 'delete_post' post.slug %}" method="post"> {% csrf_token %}
                 <button type="submit" class="action-menu">
                   <input type="hidden" name="action" value="edit">
                   <p>Delete <i class="fa fa-remove"></i></p>
                 </button>
-              </form> {% endcomment %}
+              </form>
             </div>
             {% endif %}
             <div class="timeline">
