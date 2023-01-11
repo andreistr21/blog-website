@@ -65,34 +65,39 @@ def index(request):
     return render(request, "app/index.html", context)
 
 
-def post_page(request, slug):  # sourcery skip: extract-duplicate-method
-    post = Post.objects.get(slug=slug)
-    comments = Comments.objects.filter(post=post, parent=None)
-    form = CommentForm()
+def add_comment(request, slug, post):
+    comment_form = CommentForm(request.POST)
+    if comment_form.is_valid():
+        comment = comment_form.save(commit=False)
 
-    if request.POST:
-        comment_form = CommentForm(request.POST)
-        if comment_form.is_valid():
-            if parent_comment_id := request.POST.get("parent"):
-                if parent_comment_obj := Comments.objects.get(id=parent_comment_id):
-                    comment_reply = comment_form.save(commit=False)
-                    comment_reply.parent = parent_comment_obj
-                    comment_reply.post = post
-                    comment_reply.save()
-                    return redirect("post_page", slug=slug)
-            else:
-                comment = comment_form.save(commit=False)
-                post_id = request.POST.get("post_id")
-                post = Post.objects.get(id=post_id)
-                comment.post = post
-                comment.save()
-                return redirect("post_page", slug=slug)
+        if parent_comment_id := request.POST.get("parent"):
+            if parent_comment_obj := get_object_or_404(Comments, id=parent_comment_id):
+                comment.parent = parent_comment_obj
 
+        comment.post = post
+        author = get_object_or_404(User, id=request.POST.get("user_id"))
+        comment.author = author
+        comment.save()
+        return True
+
+
+def update_view_counter(post):
     if post.view_count is None:
         post.view_count = 1
     else:
         post.view_count += 1
     post.save()
+
+
+def post_page(request, slug):  # sourcery skip: extract-duplicate-method
+    post = Post.objects.get(slug=slug)
+    comments = Comments.objects.filter(post=post, parent=None)
+    form = CommentForm()
+
+    if request.POST and add_comment(request, slug, post):
+        return redirect("post_page", slug=slug)
+
+    update_view_counter(post)
 
     context = {"post": post, "form": form, "comments": comments}
     return render(request, "app/post.html", context)

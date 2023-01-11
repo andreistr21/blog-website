@@ -82,7 +82,7 @@
                 <div class="social-share">
                   <div class="reactions">
                     <div class="likes">
-                      <form action="{% url 'like-post' %}" method="post"> {% comment "" %}{% endcomment %}
+                      <form action="{% url 'like-post' %}" method="post">
                         {% csrf_token %}
                         <input type="hidden" name="post_slug" value={{post.slug}}>
                         <button type="submit" class="likes-button">
@@ -136,29 +136,28 @@
                           {{comment.content}}
                         </p>
                       </div>
+                      {% if request.user.is_authenticated %}
                       <div class="reply">
                         <button onclick="toggleDiv(this)">Reply</button>
                       </div>
                       <div class="comment-box" id="comment-reply-box">
                         <h3>Reply to post</h3>
                         <p>
-                          Your email address will not be published. Required
-                          fields are marked<span>*</span>
+                          Required fields are marked<span>*</span>
                         </p>
                         <form method="POST"> {% csrf_token %}
                           {{form.content}}
                           <div class="grid-3">
                             <input type="hidden" name="post_id" value="{{post.id}}">
+                            <input type="hidden" name="user_id" value="{{request.user.id}}">
                             <input type="hidden" name="parent" value="{{comment.id}}">
-                            {{form.name}}
-                            {{form.email}}
-                            {{form.website}}
                           </div>
                           <button class="btn btn-primary rounded">
                             Post Reply
                           </button>
                         </form>
                       </div>
+                      {% endif %}
                     </div>
                     {% for reply in comment.replies.all %}
                     <div class="public-reply">
@@ -183,23 +182,20 @@
                 {% endfor %}
               </div>
             </div>
+            {% if request.user.is_authenticated %}
             <div class="comment-box">
               <h3>Leave a new comment to this post</h3>
               <p>
-                Your email address will not be published. Required fields are
-                marked<span>*</span>
+                Required fields are marked<span>*</span>
               </p>
               <form method="post"> {% csrf_token %}
                 {{form.content}}
-                <div class="grid-3">
-                  <input type="hidden" name="post_id" value="{{post.id}}">
-                  {{form.name}}
-                  {{form.email}}
-                  {{form.website}}
-                </div>
+                <input type="hidden" name="post_id" value="{{post.id}}">
+                <input type="hidden" name="user_id" value="{{request.user.id}}">
                 <button class="btn btn-primary rounded">Post comment</button>
               </form>
             </div>
+            {% endif %}
           </div>
         </section>
       </div>

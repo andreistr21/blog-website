@@ -62,12 +62,9 @@ class Post(models.Model):
 class Comments(models.Model):
     content = models.TextField()
     date = models.DateTimeField(auto_now=True)
-    name = models.CharField(max_length=200)
-    email = models.EmailField(max_length=200)
-    website = models.CharField(max_length=200, null=True, blank=True)
 
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
-    author = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
     parent = models.ForeignKey("self", on_delete=models.DO_NOTHING, null=True, blank=True, related_name="replies")
 
 
