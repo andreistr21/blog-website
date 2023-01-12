@@ -227,6 +227,13 @@ def my_posts_page(request):
     return render(request, "app/my_posts.html", context)
 
 
+def all_posts_page(request):
+    posts = Post.objects.all().order_by("last_updated")
+
+    context = {"posts": posts}
+    return render(request, "app/all_posts.html", context)
+
+
 def delete_post(request, slug):
     post_obj = get_object_or_404(Post, slug=slug)
 
