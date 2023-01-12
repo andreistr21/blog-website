@@ -672,12 +672,25 @@ footer .container {
 }
 
 .reply {
-  display: flex;
+  display: inline-block;
   align-items: center;
   width: fit-content;
   gap: 1rem;
   margin-left: auto;
   margin-top: 0.5rem;
+}
+
+.delete {
+  display: inline-block;
+  align-items: center;
+  width: fit-content;
+  gap: 1rem;
+  margin-left: 1rem;
+  margin-top: 0.5rem;
+}
+
+.comment_actions {
+  float: right;
 }
 
 .reply i {
@@ -1097,6 +1110,9 @@ main {
   font-size: 3rem;
 }
 .reply button {
+  background: transparent;
+}
+.delete button {
   background: transparent;
 }
 .logging-error {

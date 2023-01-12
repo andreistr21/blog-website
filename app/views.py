@@ -65,7 +65,7 @@ def index(request):
     return render(request, "app/index.html", context)
 
 
-def add_comment(request, slug, post):
+def add_comment(request, post):
     comment_form = CommentForm(request.POST)
     if comment_form.is_valid():
         comment = comment_form.save(commit=False)
@@ -94,7 +94,7 @@ def post_page(request, slug):  # sourcery skip: extract-duplicate-method
     comments = Comments.objects.filter(post=post, parent=None)
     form = CommentForm()
 
-    if request.POST and add_comment(request, slug, post):
+    if request.POST and add_comment(request, post):
         return redirect("post_page", slug=slug)
 
     update_view_counter(post)
@@ -239,3 +239,10 @@ def delete_post(request, slug):
 
     context = {"post_obj": post_obj}
     return render(request, "app/delete.html", context)
+
+
+def comment_delete_view(_, id):
+    comment = get_object_or_404(Comments, id=id)
+    post = get_object_or_404(Post, id=comment.post.id)
+    comment.delete()
+    return redirect("post_page", slug=post.slug)

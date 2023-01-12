@@ -16,3 +16,6 @@ function toggleDiv(a) {
     replybox.style.display = "none";
   }
 }
+$(document).on("click", ".delete-btn", function () {
+  return confirm("Are you sure you want to delete this?");
+});

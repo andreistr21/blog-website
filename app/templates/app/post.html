@@ -137,8 +137,16 @@
                         </p>
                       </div>
                       {% if request.user.is_authenticated %}
-                      <div class="reply">
-                        <button onclick="toggleDiv(this)">Reply</button>
+                      <div class="comment_actions">
+                        <div class="reply">
+                          <button onclick="toggleDiv(this)">Reply</button>
+                        </div>
+                        {% if request.user.id == comment.author.id %}
+                        <a class="delete" onclick="return confirm('Are you sure you want to delete this comment?')"
+                          href="{% url 'comment_delete' comment.id %}">
+                          <button class="delete-btn">Delete</button>
+                        </a>  
+                        {% endif %}
                       </div>
                       <div class="comment-box" id="comment-reply-box">
                         <h3>Reply to post</h3>
@@ -174,6 +182,14 @@
                         <p>
                           {{reply.content}}
                         </p>
+                      </div>
+                      <div class="comment_actions">
+                        {% if request.user.id == comment.author.id %}
+                        <a class="delete" onclick="return confirm('Are you sure you want to delete this comment?')"
+                          href="{% url 'comment_delete' reply.id %}">
+                          <button class="delete-btn">Delete</button>
+                        </a>
+                        {% endif %}
                       </div>
                     </div>
                     {% endfor %}

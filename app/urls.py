@@ -18,4 +18,5 @@ urlpatterns = [
     path("edit-post/<slug:slug>", views.edit_post_page, name="edit-post"),
     path("my-posts", views.my_posts_page, name="my_posts"),
     path("delete/<slug:slug>", views.delete_post, name="delete_post"),
+    path("comment-delete/<int:id>", views.comment_delete_view, name="comment_delete"),
 ]
