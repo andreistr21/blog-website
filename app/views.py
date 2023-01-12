@@ -92,6 +92,13 @@ def update_view_counter(post):
 def post_page(request, slug):  # sourcery skip: extract-duplicate-method
     post = Post.objects.get(slug=slug)
     comments = Comments.objects.filter(post=post, parent=None)
+    recent_posts = Post.objects.all().order_by("-last_updated")[:3]
+    tag = post.tags.all()[0]
+    related_blogs = Post.objects.filter(tags=tag).order_by("-last_updated")[:2]
+    top_categories = Post.objects.filter(tags=tag).order_by("-view_count")[:3]
+    # top_tags = Tag.objects.all().values("post").annotate(total=Count("post")).order_by("-total")[:10]
+    top_tags_id = Post.objects.all().values("tags").annotate(total=Count("tags")).order_by("-total")[:10]
+    top_tags = [Tag.objects.get(id=tag_id.get("tags")) for tag_id in top_tags_id]
     form = CommentForm()
 
     if request.POST and add_comment(request, post):
@@ -99,7 +106,15 @@ def post_page(request, slug):  # sourcery skip: extract-duplicate-method
 
     update_view_counter(post)
 
-    context = {"post": post, "form": form, "comments": comments}
+    context = {
+        "post": post,
+        "form": form,
+        "comments": comments,
+        "recent_posts": recent_posts,
+        "related_blogs": related_blogs,
+        "top_categories": top_categories,
+        "top_tags": top_tags,
+    }
     return render(request, "app/post.html", context)
 
 
@@ -228,7 +243,7 @@ def my_posts_page(request):
 
 
 def all_posts_page(request):
-    posts = Post.objects.all().order_by("last_updated")
+    posts = Post.objects.all().order_by("-last_updated")
 
     context = {"posts": posts}
     return render(request, "app/all_posts.html", context)

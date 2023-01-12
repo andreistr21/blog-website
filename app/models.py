@@ -48,7 +48,7 @@ class Post(models.Model):
     # Related name makes it easy to do ?reverse? search
     # With out a related name: tag_1.post_set.all()
     # With related name: tag_1.post.all()
-    tags = models.ManyToManyField(Tag, blank=True, related_name="post")
+    tags = models.ManyToManyField(Tag, related_name="post")
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
 
     def save(self, *args, **kwargs):
