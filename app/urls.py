@@ -23,4 +23,5 @@ urlpatterns = [
     path("top-posts/", views.top_posts_view, name="top_posts"),
     path("new-posts/", views.new_posts_view, name="new_posts"),
     path("add-to-favorite/<int:id>", views.add_to_favorite_view, name="add_to_favorite"),
+    path("my-bookmarks", views.my_bookmarks_view, name="my_bookmarks"),
 ]

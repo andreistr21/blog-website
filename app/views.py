@@ -292,3 +292,11 @@ def add_to_favorite_view(request, id):
     else:
         post.bookmarks.add(request.user)
     return HttpResponseRedirect(request.META["HTTP_REFERER"])
+
+
+@login_required
+def my_bookmarks_view(request):
+    user = get_object_or_404(User, id=request.user.id)
+    bookmarks = user.bookmarks.all()
+    context = {"bookmarks": bookmarks}
+    return render(request, "app/my_bookmarks.html", context)
