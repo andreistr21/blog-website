@@ -1,10 +1,9 @@
-import re
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.db.models import Count
-from django.http import HttpResponseNotFound, HttpResponse, HttpResponseForbidden
-from django.shortcuts import redirect, render
-from django.shortcuts import get_object_or_404
+from django.http import HttpResponse, HttpResponseForbidden, HttpResponseNotFound, HttpResponseRedirect
+from django.shortcuts import get_object_or_404, redirect, render
 
 from app.forms import CommentForm, LoginForm, PostForm, SignupForm, SubscribeForm
 from app.models import Comments, Post, Profile, Tag, WebsiteMeta
@@ -89,14 +88,14 @@ def update_view_counter(post):
     post.save()
 
 
-def post_page(request, slug):  # sourcery skip: extract-duplicate-method
+def post_page(request, slug):
     post = Post.objects.get(slug=slug)
+    is_favorite = bool(post.bookmarks.filter(id=request.user.id).exists())
     comments = Comments.objects.filter(post=post, parent=None)
     recent_posts = Post.objects.all().order_by("-last_updated")[:3]
     tag = post.tags.all()[0]
     related_blogs = Post.objects.filter(tags=tag).order_by("-last_updated")[:2]
     top_categories = Post.objects.filter(tags=tag).order_by("-view_count")[:3]
-    # top_tags = Tag.objects.all().values("post").annotate(total=Count("post")).order_by("-total")[:10]
     top_tags_id = Post.objects.all().values("tags").annotate(total=Count("tags")).order_by("-total")[:10]
     top_tags = [Tag.objects.get(id=tag_id.get("tags")) for tag_id in top_tags_id]
     form = CommentForm()
@@ -114,6 +113,7 @@ def post_page(request, slug):  # sourcery skip: extract-duplicate-method
         "related_blogs": related_blogs,
         "top_categories": top_categories,
         "top_tags": top_tags,
+        "is_favorite": is_favorite,
     }
     return render(request, "app/post.html", context)
 
@@ -272,13 +272,23 @@ def comment_delete_view(_, id):
 
 def top_posts_view(request):
     top_posts = Post.objects.all().order_by("-view_count")
-    
+
     context = {"top_posts": top_posts}
     return render(request, "app/top_posts.html", context)
 
 
 def new_posts_view(request):
     new_posts = Post.objects.all().order_by("-last_updated")
-    
+
     context = {"new_posts": new_posts}
     return render(request, "app/new_posts.html", context)
+
+
+@login_required
+def add_to_favorite_view(request, id):
+    post = get_object_or_404(Post, id=id)
+    if post.bookmarks.filter(id=request.user.id).exists():
+        post.bookmarks.remove(request.user)
+    else:
+        post.bookmarks.add(request.user)
+    return HttpResponseRedirect(request.META["HTTP_REFERER"])

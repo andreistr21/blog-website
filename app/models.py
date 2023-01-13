@@ -43,13 +43,14 @@ class Post(models.Model):
     image = models.ImageField(upload_to="images/", default="images/no_image.jpg")
     view_count = models.IntegerField(null=True, blank=True)
     is_featured = models.BooleanField(default=False)
-    likes = models.ManyToManyField(User, related_name="blog_post")
 
     # Related name makes it easy to do ?reverse? search
     # With out a related name: tag_1.post_set.all()
     # With related name: tag_1.post.all()
     tags = models.ManyToManyField(Tag, related_name="post")
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    likes = models.ManyToManyField(User, related_name="blog_post")
+    bookmarks = models.ManyToManyField(User, related_name="bookmarks", blank=True)
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
