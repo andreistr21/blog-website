@@ -262,7 +262,7 @@
               {{top_category.title}}
             </h3>
             <p>
-              {{top_category.content|truncatechars:100}}
+              {{top_category.content|truncatechars:100|safe}}
             </p>
             <a class="learn" href="{% url 'post_page' top_category.slug %}">Learn more <span class="material-icons">
                 trending_flat </span></a>

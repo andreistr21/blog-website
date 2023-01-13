@@ -58,7 +58,7 @@
                         {{featured_post.title}}
                     </h1>
                     <p class="des">
-                        {{featured_post.content|truncatechars:200}}
+                        {{featured_post.content|truncatechars:200|safe}}
                     </p>
                     <a class="learn" href="#">Learn more <span class="material-icons"> trending_flat </span></a>
                 </div>
