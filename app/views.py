@@ -275,3 +275,10 @@ def top_posts_view(request):
     
     context = {"top_posts": top_posts}
     return render(request, "app/top_posts.html", context)
+
+
+def new_posts_view(request):
+    new_posts = Post.objects.all().order_by("-last_updated")
+    
+    context = {"new_posts": new_posts}
+    return render(request, "app/new_posts.html", context)
