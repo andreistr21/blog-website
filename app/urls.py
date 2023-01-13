@@ -20,4 +20,5 @@ urlpatterns = [
     path("all-posts", views.all_posts_page, name="all_posts"),
     path("delete/<slug:slug>", views.delete_post, name="delete_post"),
     path("comment-delete/<int:id>", views.comment_delete_view, name="comment_delete"),
+    path("top-posts/", views.top_posts_view, name="top_posts"),
 ]

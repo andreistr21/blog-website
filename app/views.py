@@ -268,3 +268,10 @@ def comment_delete_view(_, id):
     post = get_object_or_404(Post, id=comment.post.id)
     comment.delete()
     return redirect("post_page", slug=post.slug)
+
+
+def top_posts_view(request):
+    top_posts = Post.objects.all().order_by("-view_count")
+    
+    context = {"top_posts": top_posts}
+    return render(request, "app/top_posts.html", context)
