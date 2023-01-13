@@ -24,10 +24,8 @@
 
         <div class="inputs">
             <p class="image-change">
-                {% comment %} {{ request.build_absolute_uri }}{{ object.get_absolute_url }} {% endcomment %}
-                {% comment %} {{post_form.image.uri}} {% endcomment %}
                 {% if image_url %}
-                <img src="{{image_url}}" class="post-img">
+                <img src="{{image_url}}" class="new-edit-post-img">
                 {% endif %}
                 <br>
                 {{post_form.image}}
