@@ -206,6 +206,7 @@ def new_post_page(request):
             post_obj = form.save(commit=False)
             post_obj.author = request.user
             post_obj.save()
+            form.save_m2m()
             return redirect("post_page", post_obj.slug)
 
     context = {"form": new_post_form}

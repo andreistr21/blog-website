@@ -22,3 +22,4 @@ logs
 Dockerfile
 fly.toml
 db.sqllite3
+Dockerfile

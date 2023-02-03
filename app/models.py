@@ -49,7 +49,7 @@ class Post(models.Model):
     # With related name: tag_1.post.all()
     tags = models.ManyToManyField(Tag, related_name="post")
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
-    likes = models.ManyToManyField(User, related_name="blog_post")
+    likes = models.ManyToManyField(User, related_name="blog_post", blank=True)
     bookmarks = models.ManyToManyField(User, related_name="bookmarks", blank=True)
 
     def save(self, *args, **kwargs):
