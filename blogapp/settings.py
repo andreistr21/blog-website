@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "app.apps.AppConfig",
     "tinymce",
+    "storages",
 ]
 
 MIDDLEWARE = [
@@ -60,7 +61,6 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 ROOT_URLCONF = "blogapp.urls"
 
@@ -88,16 +88,6 @@ WSGI_APPLICATION = "blogapp.wsgi.application"
 
 DATABASES = {"default": dj_database_url.config()}
 DATABASES["default"]["NAME"] = os.getenv("DB_NAME")
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.postgresql",
-#         "NAME": "postgres",
-#         'USER': 'postgres',
-#         'PASSWORD': '7895',
-#         'HOST': 'db',
-#         'PORT': '5432',
-#     }
-# }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -140,9 +130,19 @@ USE_TZ = True
 STATIC_URL = "static/"
 MEDIA_URL = "/media/"
 MEDIA_ROOT = Path(BASE_DIR).joinpath("upload")
-STATIC_ROOT = BASE_DIR / "static"
+STATIC_ROOT = BASE_DIR / "static/"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# S3 Bucket
+AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
+AWS_STORAGE_BUCKET_NAME = os.getenv("AWS_STORAGE_BUCKET_NAME")
+DEFAULT_FILE_STORAGE = os.getenv("DEFAULT_FILE_STORAGE")
+AWS_S3_FILE_OVERWRITE = os.getenv("AWS_S3_FILE_OVERWRITE", "0").lower() in ["true", "t", "1"]
+AWS_DEFAULT_ACL = os.getenv("AWS_DEFAULT_ACL")
+STATICFILES_STORAGE = os.getenv("STATICFILES_STORAGE")
+AWS_S3_REGION_NAME = os.getenv("AWS_S3_REGION_NAME")
