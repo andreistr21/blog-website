@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.db.models import Count
 from django.http import HttpResponse, HttpResponseForbidden, HttpResponseNotFound, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
+from django.utils.text import slugify
 
 from app.forms import CommentForm, LoginForm, PostForm, SignupForm, SubscribeForm
 from app.models import Comments, Post, Profile, Tag, WebsiteMeta
@@ -198,10 +199,12 @@ def new_post_page(request):
     if is_user_anonymous(request):
         return HttpResponseForbidden()
 
-    new_post_form = PostForm()
+    form = PostForm()
 
     if request.POST:
         form = PostForm(request.POST, request.FILES)
+        if Post.objects.filter(slug = slugify(request.POST.get("title"))).exists():
+            form.errors["title"] = ["This title already exists"]
         if form.is_valid():
             post_obj = form.save(commit=False)
             post_obj.author = request.user
@@ -209,7 +212,7 @@ def new_post_page(request):
             form.save_m2m()
             return redirect("post_page", post_obj.slug)
 
-    context = {"form": new_post_form}
+    context = {"form": form}
     return render(request, "app/new_post.html", context)
 
 

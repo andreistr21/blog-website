@@ -906,7 +906,6 @@ p a {
 .field-error {
   background: red;
 
-  height: 100%;
   margin-top: 0.5rem;
   border-radius: 5rem;
 }

@@ -30,11 +30,22 @@
             <p>
                 <div class="s-active login-input">
                     {{form.title}}
+                    {% if form.errors.title %}
+                    <div class="field-error">
+                        <p>{{form.errors.title.0}}</p>
+                    </div>
+                    {% endif %}
                 </div>
             </p>
             <br>
+            {% if form.errors.title %}
+            <br>
+            {% endif %}
+            <br>
             <p>
-                {{form.content}}
+                <div class="post-content-form">
+                    {{form.content}}
+                </div>
             </p>
             <br>
             <p>
