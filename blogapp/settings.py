@@ -87,7 +87,6 @@ WSGI_APPLICATION = "blogapp.wsgi.application"
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {"default": dj_database_url.config()}
-DATABASES["default"]["NAME"] = os.getenv("DB_NAME")
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators

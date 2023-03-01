@@ -1,9 +1,7 @@
-from io import BytesIO, StringIO
 from django.contrib.auth.models import User
 from django.db import models
 from django.utils.text import slugify
 from tinymce import models as tinymce_models
-from PIL import Image
 
 
 class Profile(models.Model):
@@ -67,7 +65,7 @@ class Comments(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     parent = models.ForeignKey("self", on_delete=models.CASCADE, null=True, blank=True, related_name="replies")
-    
+
     def __str__(self) -> str:
         return self.content
 
