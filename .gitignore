@@ -163,7 +163,6 @@ cython_debug/
 
 # Docker
 docker-compose.yml
-Dockerfile
 
 # fly.io
 fly.toml
