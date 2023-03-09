@@ -13,7 +13,6 @@
 .git/
 .sass-cache
 .vagrant/
-.env
 __pycache__
 dist
 docs
