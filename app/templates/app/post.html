@@ -106,6 +106,7 @@
                       <button class="likes-button" onclick="return alert('You must be logged in.')">
                         <i class="uil uil-heart"></i>
                       </button>
+                      <span>{{post.likes.all|length}}</span>
                       {% endif %}
                     </div>
                     <div class="total-comments">
