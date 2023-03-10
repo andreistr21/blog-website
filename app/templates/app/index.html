@@ -60,7 +60,8 @@
                     <p class="des">
                         {{featured_post.content|truncatechars:200|safe}}
                     </p>
-                    <a class="learn" href="#">Learn more <span class="material-icons"> trending_flat </span></a>
+                    <a class="learn" href="{% url 'post_page' featured_post.slug %}">Learn more <span
+                            class="material-icons">trending_flat</span></a>
                 </div>
             </div>
         </a>
