@@ -93,10 +93,10 @@ def post_page(request, slug):
     post = Post.objects.get(slug=slug)
     is_favorite = bool(post.bookmarks.filter(id=request.user.id).exists())
     comments = Comments.objects.filter(post=post, parent=None)
-    recent_posts = Post.objects.all().order_by("-last_updated")[:3]
+    recent_posts = Post.objects.all().order_by("-last_updated").exclude(slug=post.slug)[:3]
     tag = post.tags.all()[0]
-    related_blogs = Post.objects.filter(tags=tag).order_by("-last_updated")[:2]
-    top_categories = Post.objects.filter(tags=tag).order_by("-view_count")[:3]
+    related_blogs = Post.objects.filter(tags=tag).order_by("-last_updated").exclude(slug=post.slug)[:2]
+    top_categories = Post.objects.filter(tags=tag).order_by("-view_count").exclude(slug=post.slug)[:3]
     top_tags_id = Post.objects.all().values("tags").annotate(total=Count("tags")).order_by("-total")[:10]
     top_tags = [Tag.objects.get(id=tag_id.get("tags")) for tag_id in top_tags_id]
     form = CommentForm()

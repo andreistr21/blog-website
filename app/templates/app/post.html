@@ -210,6 +210,7 @@
       <!-- right layout -->
       <div class="right">
         <div class="block">
+          {% if recent_posts %}
           <h2 class="title2">Most recent</h2>
           {% for recent_post in recent_posts %}
           <div class="recent-post">
@@ -225,8 +226,10 @@
             </div>
           </div>
           {% endfor %}
+          {% endif %}
         </div>
         <div class="block r-blog">
+          {% if related_blogs %}
           <h2 class="title2">Related Blogs</h2>
           {% for related_blog in related_blogs %}
           <a href="{% url 'post_page' related_blog.slug %}">
@@ -252,8 +255,10 @@
             </div>
           </a>
           {% endfor %}
+          {% endif %}
         </div>
         <div class="block">
+          {% if top_categories %}
           <h2 class="title2">Top category</h2>
           {% for top_category in top_categories %}
           <div class="card">
@@ -267,14 +272,17 @@
                 trending_flat </span></a>
           </div>
           {% endfor %}
+          {% endif %}
         </div>
         <div class="block">
+          {% if top_tags %}
           <h2 class="title2">Top Tags</h2>
           <div class="blog-tags">
             {% for top_tag in top_tags %}
             <a class="tag" href="{% url 'tag_page' top_tag.slug %}">{{top_tag.name}}</a>
             {% endfor %}
           </div>
+          {% endif %}
         </div>
       </div>
       <!-- right layout end -->
