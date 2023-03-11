@@ -12,7 +12,7 @@ This project backend is written in `Python` using `Django` library. Static files
 
 
 # Project presentation
-![](readme_files/Studio_Project.gif)
+![](readme_files/presentation.gif)
 
 On screenshot below you can see main page, which contains header, search button, subscribe form and post, that marked as featured, so it's showing as first.
 
