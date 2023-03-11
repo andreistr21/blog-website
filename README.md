@@ -12,22 +12,24 @@ This project backend is written in `Python` using `Django` library. Static files
 
 
 # Project presentation
-On screenshot below you can see main page, which contains header, search button, subscribe form and post, that marked as featured, so it showing as first.
+![](readme_files/Studio_Project.gif)
+
+On screenshot below you can see main page, which contains header, search button, subscribe form and post, that marked as featured, so it's showing as first.
 
 ![](readme_files/index_page.jpg)
 
-After that there is two lists of posts.
+After that, there are two lists of posts.
 
-![](readme_files\index_page_posts.jpg)
+![](readme_files/index_page_posts.jpg)
 
-If you click on a post, you will taken to the post page, which shown below.
+If you click on a post, you will be taken to the post page, which shown below.
 
-![](readme_files\post_page_body.jpg)
+![](readme_files/post_page_body.jpg)
 
-On the same page a little lower is comments section.
+On the same page, a little lower, is a comments section.
 
-![](readme_files\post_page_comments.jpg)
+![](readme_files/post_page_comments.jpg)
 
-You are also can edit or create posts. On screenshot below, you can see editing page, that is similar to creating new post page.
+You are also can edit or create posts. On the screenshot below, you can see editing page, that is similar to creating new post page.
 
-![](readme_files\editing_post.jpg)
+![](readme_files/editing_post.jpg)
