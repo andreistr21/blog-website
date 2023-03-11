@@ -16,13 +16,18 @@ On screenshot below you can see main page, which contains header, search button,
 
 ![](readme_files/index_page.jpg)
 
-After that there is two lists of the posts.
+After that there is two lists of posts.
 
 ![](readme_files\index_page_posts.jpg)
 
+If you click on a post, you will taken to the post page, which shown below.
 
+![](readme_files\post_page_body.jpg)
 
+On the same page a little lower is comments section.
 
+![](readme_files\post_page_comments.jpg)
 
+You are also can edit or create posts. On screenshot below, you can see editing page, that is similar to creating new post page.
 
-![]()
+![](readme_files\editing_post.jpg)
