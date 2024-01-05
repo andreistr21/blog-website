@@ -1,14 +1,14 @@
-# [blog-website](https://lively-lake-1797.fly.dev/)
+# blog-website
 
 ### Description:
-This is my first Django web application. You can check this project live by [this](https://lively-lake-1797.fly.dev/) link. On this page, you will be able to find the expected functionality from a simple blog website, such as posts with images, comments with replies, likes, an authentication system, and bookmarks. You can check the website by yourself, or go below for screenshots.
+This is my first Django web application. You can check this project live by this link. On this page, you will be able to find the expected functionality from a simple blog website, such as posts with images, comments with replies, likes, an authentication system, and bookmarks. You can check the website by yourself, or go below for screenshots.
 
 ### Remark:
 This project is part of the course I took. The whole frontend was provided by the author of the course as downloadable files, and half of the backend was written line by line with the author for better understanding.
 
 
 ## Technologies
-This project backend is written in `Python` using `Django` library. Static files are maintained by the `Amazon S3` service, project hosted by [fly.io](https://fly.io/).
+This project backend is written in `Python` using `Django` library. Static files are maintained by the `Amazon S3` service, project hosted by [fly.io](https://fly.io/) (**No longer available**).
 
 
 # Project presentation
